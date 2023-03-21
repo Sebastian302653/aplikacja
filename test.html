@@ -1,0 +1,101 @@
+<!doctype html>
+
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>test kopca binarnego</title>
+		<script src="kopiec.js"></script>
+		<link rel="stylesheet" href="main.css" type="text/css" />
+		<script>
+			const kopiec = new Kopiec(31);
+			
+			function dodaj() {
+				let v = document.getElementById('wartosc').value;
+				kopiec.wstaw(parseInt(v));
+				document.getElementById('wynik').innerHTML = kopiec.drukuj();
+				aktualizuj();
+				document.getElementById('maksimum').value = '';
+				document.getElementById('sortuj').value = '';
+			}
+			
+			/*function aktualizuj() {
+				for (i = 1; i <= kopiec.n; i++) {
+					document.getElementById('t' + i).innerHTML 
+						= kopiec.ity(i);
+				}
+			}
+			*/
+			function usuń(){
+				if (kopiec.n > 0) {
+					let x = kopiec.usuń_maks();
+					document.getElementById('maksimum').value = x;
+					aktualizuj();
+				}
+			else {
+				document.getElementById('maksimum').value = 'kopiec jest pusty';
+			}
+		}
+		function sortuj() {
+			kopiec.sort();
+			//document.getElementById('wynik').innerHTML = kopiec.drukuj();
+			aktualizuj();
+		}
+		function buduj(){
+			kopiec.buduj();
+			aktualizuj();
+		}
+		function aktualizuj(){
+			for(i = 1; i <= kopiec.rozmiar; i++) {
+				if (i <= kopiec.n) document.getElementById('t' + i).innerHTML = kopiec.ity(i);
+				else document.getElementById('t' + i).innerHTML = ',';
+			}
+			document.getElementById('wynik').innerHTML = kopiec.drukuj();
+		}	
+		</script>
+	</head>
+	<body>
+
+	<p>
+		<input type="text" id="wartosc" />
+		<input type="button" value="Dodaj element do kopca" onclick="dodaj()" />
+	</p>
+
+	<p>
+		<input type="text" id="maksimum" />
+		<input type="button" value="Usuń element maksymalny z kopca" onclick="usuń()" />
+	</p>
+
+	<p>
+		<input type="text" id="sortuj" />
+		<input type="button" value="Sortuj elementy z kopca" onclick="sortuj()" />
+	</p>
+
+	<p>
+		<input type="text" id="buduj" />
+		<input type="button" value="Buduj kopiec na nowo" onclick="buduj()" />
+	</p>
+		
+		<p id="wynik">[]</p>
+		
+		<table id="tabela" style="width: 100%; text-align: center; border:3mm ridge black">
+			<script>
+				for (p = 0, k = 1; p < 5; p++) {
+					document.write('<tr>');
+					for (m = 1 << p; m > 0; m--, k++) {
+						document.write('<td colspan="' + (1 << (4 - p)) 
+							+ '" id="t' + k + '">' 
+							+ (k <= this.n ? kopiec.ity(k) : '.') 
+							+'</td>');
+					}
+					document.write('</tr>');
+				}
+			</script>
+			<!--
+			<tr><td id="t1", colspan=4>1</td></tr>
+			<tr><td id="t2", colspan=2>2</td><td id="t3", colspan=2>3</td></tr>
+			<tr><td id="t4">4</td><td id="t5">5</td><td id="t6">6</td><td id="t7">7</td></tr>
+			-->
+		</table>
+
+	</body>
+</html>
